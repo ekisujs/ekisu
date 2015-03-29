@@ -1,0 +1,19 @@
+{
+  "name": "ekisu",
+  "version": "0.0.0",
+  "description": "ekisu all the things!",
+  "main": "ekisu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekisujs/ekisu.git"
+  },
+  "author": "JongChan Choi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ekisujs/ekisu/issues"
+  },
+  "homepage": "https://github.com/ekisujs/ekisu"
+}
