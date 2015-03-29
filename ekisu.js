@@ -39,7 +39,18 @@
     };
     ekisu.browser = {
         loadImage: function (filePath) {
-            // TODO
+            return new Promise(function (resolve, reject) {
+                var image = new Image();
+                image.onload = function () {
+                    image.onload = null;
+                    image.onerror = null;
+                    resolve(image);
+                };
+                image.onerror = function (err) {
+                    reject(err);
+                };
+                image.src = filePath;
+            });
         },
         loadArrayBuffer: function (filePath) {
             // TODO
