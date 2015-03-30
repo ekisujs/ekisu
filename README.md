@@ -1,5 +1,5 @@
 ```js
-ekisu.plugin(['png', 'jpg', 'webp'], {
+var imagePlugin = {
     load: filePath => new Promise(function (resolve) {
         var image;
         blabla
@@ -8,11 +8,12 @@ ekisu.plugin(['png', 'jpg', 'webp'], {
     extract: image => new Promise(function (resolve) {
         resolve({ blabla });
     })
-});
-ekisu('a.png').then(img =>
+};
+ekisu(imagePlugin, 'http://foo/bar?baz').then(img =>
     console.log(img.canvas.toDataURL())
 );
-ekisu('png', 'http://foo/bar?baz').then(img =>
+ekisu.plugin(['png', 'jpg', 'webp'], imagePlugin);
+ekisu('a.png').then(img =>
     console.log(img.canvas.toDataURL())
 );
 ```

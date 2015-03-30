@@ -1,25 +1,24 @@
 ;(function () {
-    var isNode = false;
-    if (typeof module !== 'undefined' && module.exports) {
-        isNode = true;
-        module.exports = ekisu;
-    } else {
-        this.ekisu = ekisu;
-    }
     function ekisu() { // ekisu([pluginName], filePath)
         var filePath;
         var pluginName;
         var plugin;
         if (arguments.length === 1) {
             filePath = arguments[0];
-            pluginName = filePath.split('.').pop().trim();
+            pluginName = filePath.split('.').pop().trim().toLowerCase();
+            plugin = ekisu.plugin[pluginName];
         } else {
             filePath = arguments[1];
-            pluginName = arguments[0] + '';
+            pluginName = arguments[0];
+            if ((typeof pluginName === 'object') && !(pluginName instanceof String)) {
+                plugin = pluginName;
+            } else {
+                pluginName = (pluginName + '').toLowerCase();
+                plugin = ekisu.plugin[pluginName];
+            }
         }
-        plugin = ekisu.plugin[pluginName.toLowerCase()];
         return new Promise(function (resolve, reject) {
-            if ((plugin === void 0) || (!ekisu.plugin.hasOwnProperty(pluginName))) {
+            if (plugin === void 0) {
                 reject(new Error(pluginName + ': cannot find plugin'));
             }
             plugin.load(filePath).then(function (content) {
@@ -64,4 +63,10 @@
             // TODO
         }
     };
+    var isCommonJS = typeof module !== 'undefined' && module.exports;
+    if (isCommonJS) {
+        module.exports = ekisu;
+    } else {
+        this.ekisu = ekisu;
+    }
 })();
