@@ -60,7 +60,40 @@
     };
     ekisu.node = {
         loadBuffer: function (filePath) {
-            // TODO
+            return new Promise(function (resolve, reject) {
+                var fs = require('fs');
+                fs.readFile(filePath, {encoding: null}, function (err, buffer) {
+                    if (err) {
+                        require('request')({
+                            encoding: null,
+                            uri: filePath
+                        }, function (err, res, buffer) {
+                            if (err) reject(err);
+                            else resolve(buffer);
+                        });
+                    } else {
+                        resolve(buffer);
+                    }
+                });
+            });
+        },
+        loadUtf8String: function (filePath) {
+            return new Promise(function (resolve, reject) {
+                var fs = require('fs');
+                fs.readFile(filePath, {encoding: 'utf8'}, function (err, buffer) {
+                    if (err) {
+                        require('request')({
+                            encoding: 'utf8',
+                            uri: filePath
+                        }, function (err, res, buffer) {
+                            if (err) reject(err);
+                            else resolve(buffer);
+                        });
+                    } else {
+                        resolve(buffer);
+                    }
+                });
+            });
         }
     };
     var isCommonJS = typeof module !== 'undefined' && module.exports;
